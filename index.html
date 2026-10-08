@@ -1,0 +1,152 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta
+      name="description"
+      content="从一个点到一池锦鲤：8 个可独立运行的 p5.js 分步示例。"
+    />
+    <title>从一个点到一池锦鲤 · 小菜与老鸟</title>
+    <link rel="stylesheet" href="assets/site.css" />
+  </head>
+  <body>
+    <header class="masthead">
+      <a class="brand" href="./">小菜与老鸟 <span>创意编程</span></a>
+      <a href="https://github.com/xiaocai-laoniao/p5js-koi-pond">GitHub ↗</a>
+    </header>
+    <main>
+      <div class="intro">
+        <p class="eyebrow">p5.js · 8 步 · 程序化游动</p>
+        <h1>从一个点到一池锦鲤</h1>
+        <p>
+          让一个点有去处，让一条鱼有生命。沿着脊柱、鳍尾与行波，一步步写出自己的锦鲤池。
+        </p>
+      </div>
+      <div class="workbench">
+        <section class="pond-panel" aria-label="锦鲤演示">
+          <div class="stage">
+            <iframe
+              id="sketch"
+              title="锦鲤步骤动画"
+              src="steps/08-school-pond.html"
+            ></iframe>
+          </div>
+          <div class="tools">
+            <span id="current-step" class="step-caption"
+              >08 / 08 · 一池锦鲤</span
+            >
+            <div class="tool-buttons">
+              <button id="pause" type="button" aria-pressed="false">
+                暂停
+              </button>
+              <button id="restart" type="button">重新开始</button>
+              <button id="save" type="button">保存画面</button>
+            </div>
+          </div>
+        </section>
+        <nav class="steps" aria-label="教学步骤" id="steps"></nav>
+      </div>
+      <section class="lesson" aria-live="polite">
+        <div class="lesson-main">
+          <p class="eyebrow" id="lesson-number"></p>
+          <h2 id="lesson-title"></h2>
+          <p id="explanation"></p>
+          <p class="observe"><span>观察</span> <span id="observe"></span></p>
+        </div>
+        <div class="experiment">
+          <h3>改一个数字，看看变化</h3>
+          <p id="experiment"></p>
+          <a id="source" href="steps/08-school-pond.js">查看本步完整代码 ↗</a>
+          <a
+            id="standalone"
+            href="steps/08-school-pond.html"
+            target="_blank"
+            rel="noopener"
+            >单独打开本步 ↗</a
+          >
+        </div>
+      </section>
+    </main>
+    <footer>
+      小菜与老鸟 · 锦鲤游动课堂 <span>每一步都是独立的 p5.js 作品</span>
+    </footer>
+    <script>
+      const KOI_STEPS = [
+        {
+          number: "01",
+          file: "01-smooth-target.js",
+          title: "让头部追随平滑目标",
+          explanation:
+            "先把锦鲤缩成一个头部点。目标由 noise 生成，速度用 lerp 慢慢靠近期望方向，画面会出现连续的游动意图。",
+          observe: "观察橙色点与十字目标之间的距离，距离变大时方向变化更明显。",
+          experiment: "只把 0.045 改成 0.12，运行后比较轨迹弯曲程度。",
+        },
+        {
+          number: "02",
+          file: "02-fixed-spine.js",
+          title: "固定节距的脊柱链",
+          explanation:
+            "把一个点扩展成二十个关节。每个关节只追前一个关节，并保持固定距离，鱼的身体就从点变成了可弯曲的链。",
+          observe: "注意尾部比头部晚一点改变方向。",
+          experiment: "只改 segment 一个数字，观察节距变长后的身体形态。",
+        },
+        {
+          number: "03",
+          file: "03-bend-limit.js",
+          title: "用角度限幅控制弯曲",
+          explanation:
+            "固定距离还不够，急转时链条会绕成锐角。给相邻两节的夹角加上 maxBend，身体只能形成自然的弧线。",
+          observe: "看右侧链条，在头部快速摆动时仍能保持顺滑。",
+          experiment: "只改 maxBend，比较身体柔软度。",
+        },
+        {
+          number: "04",
+          file: "04-body-outline.js",
+          title: "沿法线长出身体和眼睛",
+          explanation:
+            "给每个关节一组半宽，再沿局部法线向两侧取点。左右两排点合起来形成身体轮廓，头部加眼睛后就有了锦鲤的方向感。",
+          observe: "观察头部和尾部宽度差，身体呈现头胸宽、尾部窄的比例。",
+          experiment: "只改 widths 的第一个数字，观察头部比例。",
+        },
+        {
+          number: "05",
+          file: "05-fins-tail.js",
+          title: "鳍和尾巴慢半拍跟随",
+          explanation:
+            "胸鳍、腹鳍和尾鳍都依附在脊柱上。尾鳍每帧只追上目标角度的一部分，画面会有柔软的滞后感。",
+          observe: "看尾鳍方向，它会追随尾部但不会立刻重合。",
+          experiment: "只改 tailFollowRate，比较柔软感。",
+        },
+        {
+          number: "06",
+          file: "06-wave-dt.js",
+          title: "行波推进和固定步长",
+          explanation:
+            "运动状态由脊柱约束决定，行波只在渲染时沿法线偏移每个关节。速度还会驱动摆尾频率和振幅，让快游时更有力量。",
+          observe: "观察速度变化时尾部摆动幅度也会变化。",
+          experiment: "只改 maxSpeed，观察摆尾频率和幅度。",
+        },
+        {
+          number: "07",
+          file: "07-pattern-body-space.js",
+          title: "用身体坐标生成花纹",
+          explanation:
+            "花纹不能只画在屏幕坐标里，它要绑定在身体坐标上。先缓存一组 s 和 u，再每帧转换到当前鱼身上。",
+          observe: "看红色斑块，它们不会在身体上滑动。",
+          experiment: "只改 patternThreshold，比较斑块数量。",
+        },
+        {
+          number: "08",
+          file: "08-school-pond.js",
+          title: "八条锦鲤组成一池鱼",
+          explanation:
+            "最终把单鱼复制成八条。分离、对齐、聚合、游荡和边界回避合在一起，再加池水、荷叶、阴影和不同花色，形成完整池塘作品。",
+          observe: "观察靠近池边的鱼，它们会逐渐转回画面内部。",
+          experiment: "只改 separationDistance，观察鱼群密度。",
+        },
+      ];
+    </script>
+    <script src="assets/site.js"></script>
+  </body>
+</html>

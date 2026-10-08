@@ -1,0 +1,173 @@
+{
+  "p5Version": "2.3.4",
+  "capture": {
+    "simulationSeconds": 12,
+    "fps": 60,
+    "pngWidth": 1200,
+    "pngHeight": 720
+  },
+  "steps": [
+    {
+      "id": "smooth-target",
+      "screenshot": "assets/screenshots/01-smooth-target.png",
+      "sourceSha256": "c89a34eb1d856d187989561e5deb2c8dc2af68ba014d8a8c363a6067db922482",
+      "pngSha256": "b72651b732e9fbeb0d8117085239280a7a66672bec24d0284869c230b5382007",
+      "animationChanges": true,
+      "frameRateError": 0,
+      "geometry": {
+        "finite": true
+      },
+      "errors": []
+    },
+    {
+      "id": "fixed-spine",
+      "screenshot": "assets/screenshots/02-fixed-spine.png",
+      "sourceSha256": "a9c8e8dd316a7f11547826575658ff0ef6580bb1fb7a54a95efbd7ddc1dccfed",
+      "pngSha256": "6ad81b462d7cfc7cdcf74a36dd4655fe039089a70c39a4fe20bbee05c4d8117a",
+      "animationChanges": true,
+      "frameRateError": 0,
+      "geometry": {
+        "jointCount": 20,
+        "maxSegmentError": 2.1316282072803006e-14,
+        "finite": true
+      },
+      "errors": []
+    },
+    {
+      "id": "bend-limit",
+      "screenshot": "assets/screenshots/03-bend-limit.png",
+      "sourceSha256": "c1398a46ef0f340557d5ed48996bdf95ceb613159f3527d266f849d05ccf3dfb",
+      "pngSha256": "34a45fdaffff0e61f68818c872da20e64c91d12c0e0ba90af1310fae22c5f9e2",
+      "animationChanges": true,
+      "frameRateError": 0,
+      "geometry": {
+        "jointCount": 20,
+        "maxSegmentError": 1.9539925233402755e-14,
+        "finite": true
+      },
+      "errors": []
+    },
+    {
+      "id": "body-outline",
+      "screenshot": "assets/screenshots/04-body-outline.png",
+      "sourceSha256": "9f249ac38568de4bd4e514d3be45e44e93fbc4ac9e6269ec3e3559da5e67d507",
+      "pngSha256": "d9be1af4dec80eb2f3390c4cc88cc9eb4e48a41f6b1601bbd7ea517a49cecfe0",
+      "animationChanges": true,
+      "frameRateError": 0,
+      "geometry": {
+        "jointCount": 20,
+        "maxSegmentError": 1.9539925233402755e-14,
+        "finite": true
+      },
+      "errors": []
+    },
+    {
+      "id": "fins-tail",
+      "screenshot": "assets/screenshots/05-fins-tail.png",
+      "sourceSha256": "0c537c30f37157801b9e928bcd1ee42afb377b57a36997fca2d482d18fc831af",
+      "pngSha256": "e19136f5f39a52e39f54952fdc76b3b412f4e533485cfcc132640914c26ab26d",
+      "animationChanges": true,
+      "frameRateError": 0,
+      "geometry": {
+        "jointCount": 20,
+        "maxSegmentError": 2.3092638912203256e-14,
+        "finite": true
+      },
+      "errors": []
+    },
+    {
+      "id": "wave-dt",
+      "screenshot": "assets/screenshots/06-wave-dt.png",
+      "sourceSha256": "1862adb90faa0f4af777152d6238e33e38b74756240284aa88f754a383b6a2bc",
+      "pngSha256": "2945f198e05d8900d4d31a97aa72f6377e3b9d97fe926516101c6a1bb4db803b",
+      "animationChanges": true,
+      "frameRateError": 0,
+      "geometry": {
+        "jointCount": 20,
+        "maxSegmentError": 1.5987211554602254e-14,
+        "finite": true
+      },
+      "errors": []
+    },
+    {
+      "id": "pattern-body-space",
+      "screenshot": "assets/screenshots/07-pattern-body-space.png",
+      "sourceSha256": "be022dd053a0c23dc3b353eff4d070e4d8edc737ad2f3252d1dccca5713bde02",
+      "pngSha256": "bbabfbe91b4cb4722628379bf4faed3e932722a3440ee44e09f45c59ee3e45ec",
+      "animationChanges": true,
+      "frameRateError": 0,
+      "geometry": {
+        "jointCount": 20,
+        "maxSegmentError": 1.7763568394002505e-14,
+        "finite": true
+      },
+      "errors": []
+    },
+    {
+      "id": "school-pond",
+      "screenshot": "assets/screenshots/08-school-pond.png",
+      "sourceSha256": "07ef1cea826380938ed740c5195292e0a153079d07f837f38f9433ebe3f40d29",
+      "pngSha256": "46faf70dc9fda275c7a35071901e97d6e707823bd23d8d760d1f2ebc65591e88",
+      "animationChanges": true,
+      "frameRateError": 0,
+      "geometry": {
+        "fishCount": 8,
+        "finite": true
+      },
+      "errors": []
+    }
+  ],
+  "interactions": [
+    {
+      "step": "01",
+      "navigation": true
+    },
+    {
+      "step": "02",
+      "navigation": true
+    },
+    {
+      "step": "03",
+      "navigation": true
+    },
+    {
+      "step": "04",
+      "navigation": true
+    },
+    {
+      "step": "05",
+      "navigation": true
+    },
+    {
+      "step": "06",
+      "navigation": true
+    },
+    {
+      "step": "07",
+      "navigation": true
+    },
+    {
+      "step": "08",
+      "navigation": true
+    }
+  ],
+  "motion": {
+    "simulationSeconds": 60,
+    "overshoots": 0,
+    "maxTurnDegrees": 6.1778722745925325
+  },
+  "pauseResume": true,
+  "restart": true,
+  "livePond": {
+    "wallSeconds": 30,
+    "renderedFrames": 1796,
+    "errors": []
+  },
+  "mobile": {
+    "width": 390,
+    "documentWidth": 390,
+    "canvasVisible": true
+  },
+  "reducedMotion": true,
+  "passed": true
+}

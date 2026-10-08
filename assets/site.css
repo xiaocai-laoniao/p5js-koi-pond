@@ -1,0 +1,302 @@
+:root {
+  color-scheme: dark;
+  --water: #081c1b;
+  --panel: #123733;
+  --ink: #d8eee6;
+  --muted: #91b4a8;
+  --line: #2e4c46;
+  --koi: #e8af77;
+  font-family: "PingFang SC", "Microsoft YaHei", system-ui, sans-serif;
+}
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: var(--water);
+  color: var(--ink);
+}
+a {
+  color: inherit;
+  text-underline-offset: 4px;
+}
+button {
+  font: inherit;
+}
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--koi);
+  outline-offset: 4px;
+}
+.masthead,
+main,
+footer {
+  width: min(1400px, calc(100% - 80px));
+  margin: 0 auto;
+}
+.masthead {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 78px;
+  border-bottom: 1px solid var(--line);
+  font-size: 13px;
+}
+.masthead a {
+  text-decoration: none;
+}
+.brand {
+  font-weight: 600;
+  letter-spacing: 2px;
+}
+.brand span {
+  padding-left: 20px;
+  color: var(--muted);
+  font-weight: 400;
+  letter-spacing: 0;
+}
+.intro {
+  padding: 36px 0 28px;
+}
+.eyebrow {
+  margin: 0 0 12px;
+  color: var(--koi);
+  font-size: 12px;
+  letter-spacing: 2px;
+}
+h1,
+h2 {
+  font-family: "Songti SC", "STSong", "Noto Serif CJK SC", serif;
+  font-weight: 600;
+}
+h1 {
+  margin: 0 0 14px;
+  font-size: clamp(30px, 3.4vw, 48px);
+  letter-spacing: 3px;
+}
+.intro > p:last-child {
+  margin: 0;
+  color: var(--muted);
+  font-size: 14px;
+  line-height: 1.8;
+}
+.workbench {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 265px;
+  gap: 24px;
+  align-items: start;
+}
+.pond-panel {
+  min-width: 0;
+  border: 1px solid var(--line);
+}
+.stage {
+  aspect-ratio: 5 / 3;
+  background: var(--panel);
+}
+iframe {
+  display: block;
+  width: 100%;
+  height: 100%;
+  border: 0;
+}
+.tools {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  min-height: 54px;
+  padding: 8px 16px;
+}
+.step-caption {
+  font-size: 12px;
+  color: var(--muted);
+}
+.tool-buttons {
+  display: flex;
+  gap: 14px;
+}
+.tool-buttons button {
+  padding: 7px 0;
+  border: 0;
+  color: var(--ink);
+  background: transparent;
+  font-size: 12px;
+  cursor: pointer;
+}
+.tool-buttons button:hover {
+  color: var(--koi);
+}
+.steps {
+  display: grid;
+  gap: 4px;
+}
+.step {
+  display: flex;
+  gap: 13px;
+  text-align: left;
+  align-items: center;
+  width: 100%;
+  min-height: 57px;
+  padding: 10px 12px;
+  background: transparent;
+  border: 1px solid transparent;
+  color: var(--muted);
+  cursor: pointer;
+}
+.step:hover {
+  background: var(--panel);
+  color: var(--ink);
+}
+.step[aria-current="step"] {
+  background: var(--panel);
+  border-color: var(--line);
+  color: var(--ink);
+}
+.step-index {
+  font:
+    13px "SF Mono",
+    Menlo,
+    Consolas,
+    monospace;
+  color: var(--koi);
+}
+.step-title {
+  display: block;
+  font-size: 14px;
+}
+.step-subtitle {
+  display: block;
+  font-size: 11px;
+  color: var(--muted);
+  margin-top: 3px;
+}
+.lesson {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 300px;
+  gap: 60px;
+  padding: 32px 0 40px;
+}
+h2 {
+  margin: 0 0 12px;
+  font-size: 27px;
+  letter-spacing: 1px;
+}
+.lesson p {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.9;
+  margin: 0 0 12px;
+}
+.lesson .eyebrow {
+  font-size: 11px;
+  color: var(--koi);
+}
+.observe > span:first-child {
+  color: var(--ink);
+  margin-right: 6px;
+}
+.experiment {
+  border-left: 1px solid var(--line);
+  padding-left: 24px;
+}
+h3 {
+  margin: 0 0 10px;
+  font-size: 14px;
+  font-weight: 500;
+}
+.experiment a {
+  display: block;
+  width: fit-content;
+  color: var(--koi);
+  font-size: 12px;
+  margin-top: 12px;
+}
+footer {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  border-top: 1px solid var(--line);
+  padding: 22px 0 30px;
+  font-size: 11px;
+  color: var(--muted);
+}
+@media (max-width: 1050px) {
+  .masthead,
+  main,
+  footer {
+    width: calc(100% - 40px);
+  }
+  .workbench {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .steps {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+  .step {
+    gap: 10px;
+    min-height: 64px;
+    padding: 9px;
+  }
+  .step-title {
+    font-size: 12px;
+  }
+  .lesson {
+    gap: 28px;
+  }
+}
+@media (max-width: 600px) {
+  .masthead,
+  main,
+  footer {
+    width: calc(100% - 28px);
+  }
+  .masthead {
+    min-height: 62px;
+  }
+  .brand span {
+    display: none;
+  }
+  .intro {
+    padding: 26px 0 22px;
+  }
+  h1 {
+    letter-spacing: 1px;
+  }
+  .intro > p:last-child {
+    font-size: 13px;
+  }
+  .tools {
+    padding: 7px 10px;
+    flex-wrap: wrap;
+  }
+  .tool-buttons {
+    gap: 12px;
+  }
+  .steps {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .lesson {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    padding-top: 24px;
+  }
+  .experiment {
+    padding-left: 0;
+    padding-top: 18px;
+    border-left: 0;
+    border-top: 1px solid var(--line);
+  }
+  h2 {
+    font-size: 25px;
+  }
+  footer {
+    flex-direction: column;
+    gap: 5px;
+  }
+}

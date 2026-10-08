@@ -1,0 +1,405 @@
+[
+  {
+    "id": "smooth-target",
+    "title": "让头部追随平滑目标",
+    "explanation": "先把锦鲤缩成一个头部点。目标由 noise 生成，速度用 lerp 慢慢靠近期望方向，画面会出现连续的游动意图。",
+    "terms": [
+      {
+        "term": "目标点",
+        "meaning": "鱼头想要靠近的位置。目标连续移动，鱼头才有稳定游动方向。"
+      },
+      {
+        "term": "期望速度",
+        "meaning": "从当前位置指向目标的方向，再给它一个固定长度。"
+      },
+      {
+        "term": "lerp",
+        "meaning": "每帧只靠近一点点，让速度变化更柔和。"
+      }
+    ],
+    "codeWalkthrough": [
+      {
+        "token": "@koi-target-noise",
+        "text": "用 noise 生成目标坐标。",
+        "effect": "十字目标不会乱跳，会在池子里缓慢漂移。"
+      },
+      {
+        "token": "@koi-desired-vector",
+        "text": "把目标减去当前位置，得到期望方向。",
+        "effect": "鱼头知道该往哪里游。"
+      },
+      {
+        "token": "@koi-velocity-lerp",
+        "text": "速度只追上期望速度的一小部分。",
+        "effect": "转向有弧线感，头部不会突然折返。"
+      },
+      {
+        "token": "@koi-position-add",
+        "text": "当前位置叠加速度。",
+        "effect": "橙色点沿着平滑轨迹前进。"
+      }
+    ],
+    "canvasCause": "画布展示一个追逐目标的鱼头点，这是后面整条脊柱的领头者。",
+    "observe": "观察橙色点与十字目标之间的距离，距离变大时方向变化更明显。",
+    "predict": "把 lerp 的 0.045 改大，鱼头会更快贴近目标。",
+    "experiment": "只把 0.045 改成 0.12，运行后比较轨迹弯曲程度。",
+    "number": "01",
+    "file": "01-smooth-target.js",
+    "screenshot": "01-smooth-target.png"
+  },
+  {
+    "id": "fixed-spine",
+    "title": "固定节距的脊柱链",
+    "explanation": "把一个点扩展成二十个关节。每个关节只追前一个关节，并保持固定距离，鱼的身体就从点变成了可弯曲的链。",
+    "terms": [
+      {
+        "term": "关节",
+        "meaning": "身体中线上一组点，后面的轮廓、鳍和花纹都依附在它们身上。"
+      },
+      {
+        "term": "节距",
+        "meaning": "相邻关节之间固定的距离。"
+      },
+      {
+        "term": "链式跟随",
+        "meaning": "从头到尾逐个更新，每一节只看前一节。"
+      }
+    ],
+    "codeWalkthrough": [
+      {
+        "token": "@koi-fixed-segment",
+        "text": "把点拉回距离 anchor 正好一个节距的位置。",
+        "effect": "相邻关节长度稳定，身体不会被拉长。"
+      },
+      {
+        "token": "@koi-head-heading",
+        "text": "头部朝向目标。",
+        "effect": "整条链被头部带着转向。"
+      },
+      {
+        "token": "@koi-follow-loop",
+        "text": "从第二节开始逐个跟随。",
+        "effect": "脊柱像一串珠子被拖着走。"
+      }
+    ],
+    "canvasCause": "线条和小圆点展示了关节如何跟着头部排成一条身体中线。",
+    "observe": "注意尾部比头部晚一点改变方向。",
+    "predict": "把 segment 从 10.5 改成 16，身体会更长，弯曲颗粒感也会变粗。",
+    "experiment": "只改 segment 一个数字，观察节距变长后的身体形态。",
+    "number": "02",
+    "file": "02-fixed-spine.js",
+    "screenshot": "02-fixed-spine.png"
+  },
+  {
+    "id": "bend-limit",
+    "title": "用角度限幅控制弯曲",
+    "explanation": "固定距离还不够，急转时链条会绕成锐角。给相邻两节的夹角加上 maxBend，身体只能形成自然的弧线。",
+    "terms": [
+      {
+        "term": "角度差",
+        "meaning": "当前段方向相对上一段方向的转动量。"
+      },
+      {
+        "term": "角度包裹",
+        "meaning": "把角度差压回 -PI 到 PI，跨过正负边界时仍能得到最短转向。"
+      },
+      {
+        "term": "maxBend",
+        "meaning": "每一节允许弯曲的最大角度。"
+      }
+    ],
+    "codeWalkthrough": [
+      {
+        "token": "@koi-wrap-angle",
+        "text": "用 atan2(sin, cos) 处理跨界角度。",
+        "effect": "方向接近 PI 和 -PI 时不会突然反向。"
+      },
+      {
+        "token": "@koi-bend-clamp",
+        "text": "把每节角度差夹在固定范围内。",
+        "effect": "右侧链条会保持连续的弧线。"
+      },
+      {
+        "token": "@koi-angle-joint",
+        "text": "用受限角度重算关节位置。",
+        "effect": "关节距离和弯曲角度同时稳定。"
+      }
+    ],
+    "canvasCause": "左右对照能看到角度限幅对身体曲线的影响。",
+    "observe": "看右侧链条，在头部快速摆动时仍能保持顺滑。",
+    "predict": "把 maxBend 从 0.38 改成 0.18，身体会更硬。",
+    "experiment": "只改 maxBend，比较身体柔软度。",
+    "number": "03",
+    "file": "03-bend-limit.js",
+    "screenshot": "03-bend-limit.png"
+  },
+  {
+    "id": "body-outline",
+    "title": "沿法线长出身体和眼睛",
+    "explanation": "给每个关节一组半宽，再沿局部法线向两侧取点。左右两排点合起来形成身体轮廓，头部加眼睛后就有了锦鲤的方向感。",
+    "terms": [
+      {
+        "term": "法线",
+        "meaning": "与身体方向垂直的方向，用来向左右展开宽度。"
+      },
+      {
+        "term": "半宽数组",
+        "meaning": "每个关节对应的身体半宽，头胸宽，尾部窄。"
+      },
+      {
+        "term": "Path2D",
+        "meaning": "直接构建 Canvas 路径，用平滑曲线连接轮廓点。"
+      }
+    ],
+    "codeWalkthrough": [
+      {
+        "token": "@koi-normal-right",
+        "text": "沿法线右侧取身体边缘点。",
+        "effect": "身体右边界跟随脊柱弯曲。"
+      },
+      {
+        "token": "@koi-normal-left",
+        "text": "沿法线左侧取身体边缘点。",
+        "effect": "身体左边界与右侧围成封闭形。"
+      },
+      {
+        "token": "@koi-body-shape",
+        "text": "左右边界用曲线闭合。",
+        "effect": "链条变成温润的鱼身。"
+      },
+      {
+        "token": "@koi-eye-dot",
+        "text": "眼睛挂在头部两侧。",
+        "effect": "鱼的朝向一眼能看出来。"
+      },
+      {
+        "token": "@koi-arrive-target",
+        "text": "每次前进距离最多等于离目标的距离。",
+        "effect": "追上目标后保持朝向，避免越过目标后反复掉头。"
+      },
+      {
+        "token": "@koi-smooth-heading",
+        "text": "朝向每次只追上角度差的一小部分。",
+        "effect": "目标换向时，鱼身会平滑转过来。"
+      }
+    ],
+    "canvasCause": "画布里会看到一条由脊柱撑起的白色鱼身。",
+    "observe": "观察头部和尾部宽度差，身体呈现头胸宽、尾部窄的比例。",
+    "predict": "把 widths 第一个 26 改成 36，头部会更宽。",
+    "experiment": "只改 widths 的第一个数字，观察头部比例。",
+    "number": "04",
+    "file": "04-body-outline.js",
+    "screenshot": "04-body-outline.png"
+  },
+  {
+    "id": "fins-tail",
+    "title": "鳍和尾巴慢半拍跟随",
+    "explanation": "胸鳍、腹鳍和尾鳍都依附在脊柱上。尾鳍每帧只追上目标角度的一部分，画面会有柔软的滞后感。",
+    "terms": [
+      {
+        "term": "附着点",
+        "meaning": "鳍从某个关节的身体边缘长出来。"
+      },
+      {
+        "term": "一级平滑",
+        "meaning": "每帧追上目标差值的一部分，用简单方式得到滞后。"
+      },
+      {
+        "term": "turnSignal",
+        "meaning": "头部和身体中段的角度差，可用来控制左右鳍张开程度。"
+      }
+    ],
+    "codeWalkthrough": [
+      {
+        "token": "@koi-fin-spread",
+        "text": "按身体方向旋转鳍片。",
+        "effect": "鳍会贴着鱼身边缘向后展开。"
+      },
+      {
+        "token": "@koi-tail-lag",
+        "text": "尾鳍按 tailFollowRate 追随尾部方向。",
+        "effect": "尾巴慢半拍，看起来更柔软。"
+      },
+      {
+        "token": "@koi-tail-shape",
+        "text": "用贝塞尔和二次曲线画叉形尾鳍。",
+        "effect": "尾部从简单线段变成半透明鱼尾。"
+      },
+      {
+        "token": "@koi-fin-outer",
+        "text": "外侧胸鳍随转弯张开。",
+        "effect": "转向时左右鳍有不同姿态。"
+      }
+    ],
+    "canvasCause": "身体、胸鳍、腹鳍和尾鳍组合成完整单鱼。",
+    "observe": "看尾鳍方向，它会追随尾部但不会立刻重合。",
+    "predict": "把 tailFollowRate 从 7.2 改成 16.8，尾鳍会更紧地跟随身体。",
+    "experiment": "只改 tailFollowRate，比较柔软感。",
+    "number": "05",
+    "file": "05-fins-tail.js",
+    "screenshot": "05-fins-tail.png"
+  },
+  {
+    "id": "wave-dt",
+    "title": "行波推进和固定步长",
+    "explanation": "运动状态由脊柱约束决定，行波只在渲染时沿法线偏移每个关节。速度还会驱动摆尾频率和振幅，让快游时更有力量。",
+    "terms": [
+      {
+        "term": "固定步长",
+        "meaning": "模拟每次只前进固定时间，帧率变化时速度仍稳定。"
+      },
+      {
+        "term": "行波",
+        "meaning": "从头到尾有相位差的一列正弦偏移。"
+      },
+      {
+        "term": "渲染偏移",
+        "meaning": "只改变画出来的位置，不改原始关节。"
+      }
+    ],
+    "codeWalkthrough": [
+      {
+        "token": "@koi-dt-turn",
+        "text": "最大转向率乘以 dt。",
+        "effect": "低帧率和高帧率下转向速度一致。"
+      },
+      {
+        "token": "@koi-speed-goal",
+        "text": "距离目标越远，目标速度越高。",
+        "effect": "鱼会在远离目标时加速。"
+      },
+      {
+        "token": "@koi-phase-dt",
+        "text": "相位按时间推进。",
+        "effect": "摆动频率和真实时间绑定。"
+      },
+      {
+        "token": "@koi-wave-offset",
+        "text": "每个关节得到不同相位的法线偏移。",
+        "effect": "身体出现从头到尾传递的波。"
+      },
+      {
+        "token": "@koi-fixed-step",
+        "text": "用累计时间消化固定模拟步。",
+        "effect": "动画在不同设备上保持相近速度。"
+      }
+    ],
+    "canvasCause": "鱼身会沿脊柱摆动，中心约束仍然稳定。",
+    "observe": "观察速度变化时尾部摆动幅度也会变化。",
+    "predict": "把 maxSpeed 从 175 改成 90，鱼会游得更稳。",
+    "experiment": "只改 maxSpeed，观察摆尾频率和幅度。",
+    "number": "06",
+    "file": "06-wave-dt.js",
+    "screenshot": "06-wave-dt.png"
+  },
+  {
+    "id": "pattern-body-space",
+    "title": "用身体坐标生成花纹",
+    "explanation": "花纹不能只画在屏幕坐标里，它要绑定在身体坐标上。先缓存一组 s 和 u，再每帧转换到当前鱼身上。",
+    "terms": [
+      {
+        "term": "身体坐标",
+        "meaning": "s 表示沿脊柱的位置，u 表示从中线向左或向右的比例。"
+      },
+      {
+        "term": "缓存",
+        "meaning": "花纹随机点只生成一次，之后每帧复用。"
+      },
+      {
+        "term": "clip",
+        "meaning": "让花纹只显示在身体轮廓内部。"
+      }
+    ],
+    "codeWalkthrough": [
+      {
+        "token": "@koi-pattern-cache",
+        "text": "生成并缓存花纹点。",
+        "effect": "花纹不会每帧闪烁。"
+      },
+      {
+        "token": "@koi-body-coordinate",
+        "text": "把 s 和 u 转成画布点。",
+        "effect": "花纹跟着身体弯曲。"
+      },
+      {
+        "token": "@koi-body-clip",
+        "text": "把后续绘制裁剪在鱼身内。",
+        "effect": "红色斑块不会溢出身体。"
+      },
+      {
+        "token": "@koi-pattern-dot",
+        "text": "按缓存半径画斑块。",
+        "effect": "形成连片的锦鲤花纹。"
+      }
+    ],
+    "canvasCause": "红白花纹会贴在鱼身上，游动时跟着弯曲。",
+    "observe": "看红色斑块，它们不会在身体上滑动。",
+    "predict": "把 patternThreshold 从 0.56 改成 0.64，斑块会减少。",
+    "experiment": "只改 patternThreshold，比较斑块数量。",
+    "number": "07",
+    "file": "07-pattern-body-space.js",
+    "screenshot": "07-pattern-body-space.png"
+  },
+  {
+    "id": "school-pond",
+    "title": "八条锦鲤组成一池鱼",
+    "explanation": "最终把单鱼复制成八条。分离、对齐、聚合、游荡和边界回避合在一起，再加池水、荷叶、阴影和不同花色，形成完整池塘作品。",
+    "terms": [
+      {
+        "term": "分离",
+        "meaning": "靠太近时互相推开。"
+      },
+      {
+        "term": "对齐",
+        "meaning": "参考邻居的朝向，让群体更协调。"
+      },
+      {
+        "term": "聚合",
+        "meaning": "向邻居中心靠近，避免群体散掉。"
+      },
+      {
+        "term": "边界回避",
+        "meaning": "靠近池边时加入指向池内的向量。"
+      }
+    ],
+    "codeWalkthrough": [
+      {
+        "token": "@koi-separation",
+        "text": "距离过近时累积分离向量。",
+        "effect": "鱼群不会挤成一团。"
+      },
+      {
+        "token": "@koi-align",
+        "text": "把邻居朝向加入当前方向。",
+        "effect": "鱼群的游向会逐渐协调。"
+      },
+      {
+        "token": "@koi-cohesion",
+        "text": "朝邻居中心轻微靠拢。",
+        "effect": "鱼群保持松散聚集。"
+      },
+      {
+        "token": "@koi-boundary-vector",
+        "text": "接近边界时得到回避向量。",
+        "effect": "鱼会绕回池塘中间。"
+      },
+      {
+        "token": "@koi-render-wave",
+        "text": "行波只用于本帧绘制点。",
+        "effect": "群游时身体摆动仍不破坏约束。"
+      },
+      {
+        "token": "@koi-school-fixed-step",
+        "text": "整池鱼使用固定步长更新。",
+        "effect": "多鱼模拟在不同帧率下保持稳定。"
+      }
+    ],
+    "canvasCause": "完整池塘里有八条不同花色的锦鲤持续游动。",
+    "observe": "观察靠近池边的鱼，它们会逐渐转回画面内部。",
+    "predict": "把 separationDistance 从 140 改成 180，鱼群间距会变大。",
+    "experiment": "只改 separationDistance，观察鱼群密度。",
+    "number": "08",
+    "file": "08-school-pond.js",
+    "screenshot": "08-school-pond.png"
+  }
+]
